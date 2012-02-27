@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hiberante/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.karpukhin.swingmvcdemo.core.model">
+    <class name="User" table="USERS">
+        <id name="id" column="USER_ID" unsaved-value="0">
+            <generator class="native"/>
+        </id>
+        <property name="firstName" column="FIRST_NAME" not-null="true"/>
+        <property name="lastName" column="LAST_NAME" not-null="true"/>
+        <many-to-one name="group" class="Group" column="GROUP_ID"
+                     foreign-key="FK_USER_GROUP_ID" not-null="true"/>
+    </class>
+    <query name="getUsersByGroup">
+        SELECT user
+        FROM User AS user
+        WHERE user.group.id = :groupId
+        ORDER BY lastName ASC, firstName ASC
+    </query>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hiberante/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="org.karpukhin.swingmvcdemo.core.model.Group" table="GROUPS">
+        <id name="id" column="GROUP_ID" unsaved-value="0">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="NAME" not-null="true"/>
+        <property name="description" column="DESCRIPTION"/>
+    </class>
+    <query name="getAllGroups">
+        SELECT group
+        FROM Group AS group
+        ORDER BY name ASC
+    </query>
+</hibernate-mapping>
