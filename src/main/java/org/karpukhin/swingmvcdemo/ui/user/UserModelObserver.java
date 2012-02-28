@@ -9,5 +9,5 @@ public interface UserModelObserver {
 
     void updateGroups();
 
-    void updateSelectedGroup();
+    void updateUser();
 }

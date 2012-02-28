@@ -1,6 +1,7 @@
 package org.karpukhin.swingmvcdemo.ui.user;
 
 import org.karpukhin.swingmvcdemo.core.model.Group;
+import org.karpukhin.swingmvcdemo.core.model.User;
 
 import java.util.List;
 
@@ -16,10 +17,10 @@ public interface UserModel {
     List<Group> getGroups();
     
     void setGroups(List<Group> groups);
-    
-    int getSelectedGroup();
 
-    void setSelectedGroup(int groupId);
+    void setUser(User user);
+
+    User getUser();
 
     void registerObserver(UserModelObserver observer);
 }

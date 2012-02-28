@@ -1,6 +1,7 @@
 package org.karpukhin.swingmvcdemo.ui.user;
 
 import org.karpukhin.swingmvcdemo.core.model.Group;
+import org.karpukhin.swingmvcdemo.core.model.User;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,7 +15,7 @@ public class UserModelImpl implements UserModel {
     private List<UserModelObserver> observers = new LinkedList<UserModelObserver>();
     private String title;
     private List<Group> groups = new ArrayList<Group>();
-    private int groupId = -1;
+    private User user;
 
     @Override
     public String getTitle() {
@@ -43,16 +44,16 @@ public class UserModelImpl implements UserModel {
     }
 
     @Override
-    public int getSelectedGroup() {
-        return groupId;
+    public void setUser(User user) {
+        this.user = user;
+        for (UserModelObserver observer : observers) {
+            observer.updateUser();
+        }
     }
 
     @Override
-    public void setSelectedGroup(int groupId) {
-        this.groupId = groupId;
-        for (UserModelObserver observer : observers) {
-            observer.updateSelectedGroup();
-        }
+    public User getUser() {
+        return user;
     }
 
     @Override

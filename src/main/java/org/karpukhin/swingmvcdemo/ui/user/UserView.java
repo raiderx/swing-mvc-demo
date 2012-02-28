@@ -170,10 +170,10 @@ public class UserView implements UserModelObserver {
     }
 
     @Override
-    public void updateSelectedGroup() {
-        if (model.getSelectedGroup() != -1) {
-            comboModel.setSelectedItemWithKey(Integer.toString(model.getSelectedGroup()));
-        }
+    public void updateUser() {
+        firstNameField.setText(model.getUser().getFirstName());
+        lastNameField.setText(model.getUser().getLastName());
+        comboModel.setSelectedItemWithKey(Integer.toString(model.getUser().getGroup().getId()));
     }
 
     public void hide() {

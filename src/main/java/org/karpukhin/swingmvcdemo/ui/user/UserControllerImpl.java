@@ -1,6 +1,7 @@
 package org.karpukhin.swingmvcdemo.ui.user;
 
 import org.karpukhin.swingmvcdemo.core.model.Group;
+import org.karpukhin.swingmvcdemo.core.model.User;
 import org.karpukhin.swingmvcdemo.core.service.GroupService;
 import org.karpukhin.swingmvcdemo.core.service.UserService;
 import org.karpukhin.swingmvcdemo.ui.main.MainView;
@@ -30,7 +31,8 @@ public class UserControllerImpl implements UserController {
         userId = -1;
         model.setTitle("Добавить пользователя");
         model.setGroups(groupService.getGroups());
-        model.setSelectedGroup(groupId);
+        User user = new User(null, null, groupService.getGroupById(groupId));
+        model.setUser(user);
         view.show();
     }
 
@@ -39,6 +41,7 @@ public class UserControllerImpl implements UserController {
         this.userId = userId;
         model.setTitle("Редактировать пользователя");
         model.setGroups(groupService.getGroups());
+        model.setUser(userService.getUserById(userId));
         view.show();
     }
 
