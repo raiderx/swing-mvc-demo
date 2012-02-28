@@ -34,5 +34,9 @@ public interface MainModel {
      */
     List<User> getUsers();
 
-    void registerObserver(MainObserver observer);
+    int getSelectedGroup();
+
+    void setSelectedGroup(int groupId);
+
+    void registerObserver(MainModelObserver observer);
 }

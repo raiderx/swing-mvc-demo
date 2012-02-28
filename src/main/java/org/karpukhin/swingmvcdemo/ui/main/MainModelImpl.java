@@ -14,8 +14,9 @@ public class MainModelImpl implements MainModel {
     
     private List<Group> groups = new ArrayList<Group>();
     private List<User> users = new ArrayList<User>();
+    private int groupId = -1;
 
-    private List<MainObserver> observers = new LinkedList<MainObserver>();
+    private List<MainModelObserver> observers = new LinkedList<MainModelObserver>();
 
     /**
      * {@inheritDoc}
@@ -55,18 +56,31 @@ public class MainModelImpl implements MainModel {
      * {@inheritDoc}
      */
     @Override
-    public void registerObserver(MainObserver observer) {
+    public void registerObserver(MainModelObserver observer) {
         observers.add(observer);
     }
 
+    @Override
+    public int getSelectedGroup() {
+        return groupId;
+    }
+
+    @Override
+    public void setSelectedGroup(int groupId) {
+        this.groupId = groupId;
+        for (MainModelObserver observer : observers) {
+            observer.updateSelectedGroup();
+        }
+    }
+
     private void notifyObservers() {
-        for (MainObserver observer : observers) {
+        for (MainModelObserver observer : observers) {
             observer.updateGroups();
         }
     }
 
     private void notifyUsersObservers() {
-        for (MainObserver observer : observers) {
+        for (MainModelObserver observer : observers) {
             observer.updateUsers();
         }
     }

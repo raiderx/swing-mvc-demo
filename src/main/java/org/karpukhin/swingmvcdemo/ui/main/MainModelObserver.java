@@ -3,9 +3,11 @@ package org.karpukhin.swingmvcdemo.ui.main;
 /**
  * @author Pavel Karpukhin
  */
-public interface MainObserver {
+public interface MainModelObserver {
 
     void updateGroups();
 
     void updateUsers();
+
+    void updateSelectedGroup();
 }

@@ -1,12 +1,10 @@
 package org.karpukhin.swingmvcdemo.ui.main;
 
 import org.karpukhin.swingmvcdemo.core.model.Group;
-import org.karpukhin.swingmvcdemo.core.model.User;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -20,12 +18,12 @@ import java.awt.event.MouseEvent;
 /**
  * @author Pavel Karpukhin
  */
-public class MainView implements MainObserver {
+public class MainView implements MainModelObserver {
 
     private MainController controller;
     private MainModel model;
     private DefaultTreeModel treeModel;
-    private DefaultTableModel tableModel;
+    private UserTableModel tableModel = new UserTableModel();
 
     private JFrame frame = new JFrame("MVC Demo");
     private JSplitPane splitPane = new JSplitPane();
@@ -33,6 +31,7 @@ public class MainView implements MainObserver {
     private JTable table = new JTable();
     private JPopupMenu rootTreePopupMenu;
     private JPopupMenu leafTreePopupMenu;
+    private JPopupMenu tablePopupMenu;
 
     public MainView(MainController controller, MainModel model) {
         this.controller = controller;
@@ -148,7 +147,16 @@ public class MainView implements MainObserver {
      * @return panel just created
      */
     private JComponent createRightPanel() {
-        updateUsers();
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setModel(tableModel);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger() && table.getSelectedRow() != -1) {
+                    tablePopupMenu.show(table, e.getX(), e.getY());
+                }
+            }
+        });
         JScrollPane scrollPane = new JScrollPane(table);
 
         JPanel panel = new JPanel();
@@ -165,15 +173,41 @@ public class MainView implements MainObserver {
                         .addContainerGap()
                         .addGroup(horGroup)
                         .addContainerGap()
-                );
+        );
         layout.setVerticalGroup(
                 layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(verGroup)
                         .addContainerGap()
-                );
+        );
 
         panel.setLayout(layout);
+
+        tablePopupMenu = new JPopupMenu();
+        JMenuItem menuItem = new JMenuItem("Добавить пользователя");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.addUserToGroup(model.getSelectedGroup());
+            }
+        });
+        tablePopupMenu.add(menuItem);
+        menuItem = new JMenuItem("Изменить пользователя");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.editUser(tableModel.getUserAt(table.getSelectedRow()).getId());
+            }
+        });
+        tablePopupMenu.add(menuItem);
+        menuItem = new JMenuItem("Удалить пользователя");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.removeUser(tableModel.getUserAt(table.getSelectedRow()).getId());
+            }
+        });
+        tablePopupMenu.add(menuItem);
         return panel;
     }
 
@@ -208,8 +242,8 @@ public class MainView implements MainObserver {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension d = toolkit.getScreenSize();
             frame.setLocation(
-                (int)(d.getWidth() - frame.getSize().getWidth()) / 2,
-                (int)(d.getHeight() - frame.getSize().getHeight()) / 2);
+                    (int) (d.getWidth() - frame.getSize().getWidth()) / 2,
+                    (int) (d.getHeight() - frame.getSize().getHeight()) / 2);
     }
 
     @Override
@@ -223,13 +257,11 @@ public class MainView implements MainObserver {
 
     @Override
     public void updateUsers() {
-        tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[] {"Фамилия", "Имя"});
-        int row = -1;
-        for (User user : model.getUsers()) {
-            tableModel.insertRow(++row, new String[] { user.getLastName(), user.getFirstName()});
-        }
-        table.setModel(tableModel);
+        tableModel.setUsers(model.getUsers());
+    }
+
+    @Override
+    public void updateSelectedGroup() {
     }
 
     public JFrame getFrame() {

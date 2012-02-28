@@ -70,6 +70,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public void selectGroup(int groupId) {
+        model.setSelectedGroup(groupId);
         List<User> users = userService.getUsersByGroup(groupId);
         model.setUsers(users);
     }
@@ -90,7 +91,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public void removeGroup(int groupId) {
-        groupService.deleteGroup(groupService.getGroupById(groupId));
+        groupService.deleteGroup(groupId);
         model.setGroups(groupService.getGroups());
     }
 
@@ -98,5 +99,22 @@ public class MainControllerImpl implements MainController {
     public void addUserToGroup(int groupId) {
         UserControllerImpl userController = new UserControllerImpl(view, groupService, userService);
         userController.add(groupId);
+        List<User> users = userService.getUsersByGroup(groupId);
+        model.setUsers(users);
+    }
+
+    @Override
+    public void editUser(int userId) {
+        UserControllerImpl userController = new UserControllerImpl(view, groupService, userService);
+        userController.edit(userId);
+        List<User> users = userService.getUsersByGroup(model.getSelectedGroup());
+        model.setUsers(users);
+    }
+
+    @Override
+    public void removeUser(int userId) {
+        userService.deleteUser(userId);
+        List<User> users = userService.getUsersByGroup(model.getSelectedGroup());
+        model.setUsers(users);
     }
 }
