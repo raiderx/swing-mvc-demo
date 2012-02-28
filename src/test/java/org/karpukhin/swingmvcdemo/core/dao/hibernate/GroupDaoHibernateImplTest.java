@@ -40,6 +40,11 @@ public class GroupDaoHibernateImplTest extends AbstractTransactionalJUnit4Spring
     }
 
     @Test
+    public void testDeleteGroup() {
+        groupDao.delete(group);
+    }
+
+    @Test
     public void testGetAllGroups() {
         List<Group> groups = groupDao.getGroups();
         assertEquals(1, groups.size());
