@@ -12,19 +12,20 @@ import java.util.List;
 public interface GroupService {
 
     /**
-     * Returns new group created with given name
-     * @param name group name
+     * Returns new group created with given name and description
+     * @param name        group name
+     * @param description group description
      * @return group just created
      */
     Group createGroup(String name, String description);
 
     /**
      * Sets new name and description to the existing group.
-     * @param groupId     unique id of group
+     * @param id          unique id of group
      * @param name        new value for group name
      * @param description new value for group description
      */
-    void updateGroup(int groupId, String name, String description);
+    void updateGroup(int id, String name, String description);
 
     /**
      * Deletes specified group
@@ -34,9 +35,9 @@ public interface GroupService {
 
     /**
      * Deletes group with specified unique id
-     * @param groupId unique id of group
+     * @param id unique id of group
      */
-    void deleteGroup(int groupId);
+    void deleteGroup(int id);
 
     /**
      * Returns list of groups

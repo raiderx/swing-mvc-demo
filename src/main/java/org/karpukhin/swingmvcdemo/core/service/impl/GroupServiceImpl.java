@@ -35,8 +35,8 @@ public class GroupServiceImpl implements GroupService {
      * {@inheritDoc}
      */
     @Override
-    public void updateGroup(int groupId, String name, String description) {
-        Group group = groupDao.getById(groupId);
+    public void updateGroup(int id, String name, String description) {
+        Group group = groupDao.getById(id);
         group.setName(name);
         group.setDescription(description);
         groupDao.saveOrUpdate(group);
@@ -54,8 +54,8 @@ public class GroupServiceImpl implements GroupService {
      * {@inheritDoc}
      */
     @Override
-    public void deleteGroup(int groupId) {
-        groupDao.delete(groupDao.getById(groupId));
+    public void deleteGroup(int id) {
+        groupDao.delete(groupDao.getById(id));
     }
 
     /**

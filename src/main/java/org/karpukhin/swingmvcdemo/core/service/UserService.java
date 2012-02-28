@@ -39,16 +39,16 @@ public interface UserService {
 
     /**
      * Deletes user with specified unique id
-     * @param userId unique id of user
+     * @param id unique id of user
      */
-    void deleteUser(int userId);
+    void deleteUser(int id);
 
     /**
      * Returns list of users of group with given id
-     * @param groupId group id
+     * @param id unique id of group
      * @return list of users
      */
-    List<User> getUsersByGroup(int groupId);
+    List<User> getUsersByGroup(int id);
 
     /**
      * Returns user found by given unique id

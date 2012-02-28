@@ -56,16 +56,16 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public void deleteUser(int userId) {
-        userDao.delete(userDao.getById(userId));
+    public void deleteUser(int id) {
+        userDao.delete(userDao.getById(id));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<User> getUsersByGroup(int groupId) {
-        return userDao.getUsersByGroup(groupId);
+    public List<User> getUsersByGroup(int id) {
+        return userDao.getUsersByGroup(id);
     }
 
     /**
