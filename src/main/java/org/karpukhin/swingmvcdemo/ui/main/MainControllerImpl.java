@@ -90,6 +90,8 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public void removeGroup(int groupId) {
+        groupService.deleteGroup(groupService.getGroupById(groupId));
+        model.setGroups(groupService.getGroups());
     }
 
     @Override

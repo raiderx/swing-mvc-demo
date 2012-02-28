@@ -19,10 +19,9 @@ public class MvcDemo {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {
+                ApplicationContext context = new ClassPathXmlApplicationContext(
                         "classpath:/org/karpukhin/swingmvcdemo/core/dao/applicationContext-dao.xml",
-                        "classpath:/org/karpukhin/swingmvcdemo/core/service/applicationContext-service.xml"
-                });
+                        "classpath:/org/karpukhin/swingmvcdemo/core/service/applicationContext-service.xml");
                 GroupService groupService = context.getBean(GroupService.class);
                 UserService userService = context.getBean(UserService.class);
                 MainModel model = new MainModelImpl();
