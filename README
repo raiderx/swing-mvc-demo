@@ -1,0 +1,4 @@
+Swing MVC Demo
+--------------
+Java application with GUI was developed using Swing, Hibernate, Spring
+Framework, Log4j and HSQL Database.
