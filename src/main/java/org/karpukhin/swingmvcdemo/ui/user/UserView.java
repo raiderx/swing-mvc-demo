@@ -3,6 +3,7 @@ package org.karpukhin.swingmvcdemo.ui.user;
 import org.karpukhin.swingmvcdemo.core.model.Group;
 import org.karpukhin.swingmvcdemo.ui.main.MainView;
 
+import javax.management.monitor.StringMonitor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -57,7 +58,8 @@ public class UserView implements UserModelObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validate()) {
-                    controller.save(firstNameField.getText(), lastNameField.getText(), groupCombo.getSelectedIndex());
+                    String key = ((Map.Entry<String, String>)comboModel.getSelectedItem()).getKey();
+                    controller.save(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(key));
                 }
             }
         });
