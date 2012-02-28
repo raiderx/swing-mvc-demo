@@ -3,7 +3,6 @@ package org.karpukhin.swingmvcdemo.ui.user;
 import org.karpukhin.swingmvcdemo.core.model.Group;
 import org.karpukhin.swingmvcdemo.ui.main.MainView;
 
-import javax.management.monitor.StringMonitor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
