@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService {
     /**
      * {@inheritDoc}
      */
-    /*@Override
-    public List<User> getUsers() {
-        return userDao.getUsers();
-    }*/
+    @Override
+    public void updateUser(int id, String firstName, String lastName, Group group) {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -46,10 +46,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsersByGroup(int groupId) {
         return userDao.getUsersByGroup(groupId);
-    }
-
-    @Override
-    public void updateUser(int id, String firstName, String lastName, Group group) {
-
     }
 }

@@ -6,24 +6,30 @@ import org.karpukhin.swingmvcdemo.core.model.User;
 import java.util.List;
 
 /**
+ * This interface describes the contract that service responsible for managing
+ * {@link User} entity must follow.
  * @author Pavel Karpukhin
  */
 public interface UserService {
 
     /**
-     *
-     * @param firstName
-     * @param lastName
-     * @param group
-     * @return
+     * Creates new {@link User} instance with given first name, last name
+     * and group.
+     * @param firstName user first name
+     * @param lastName  user last name
+     * @param group     user group
+     * @return {@link User} instance just created
      */
     User createUser(String firstName, String lastName, Group group);
 
     /**
-     * Returns list of users
-     * @return list of users
+     * Sets new first name, last name and group to the existing user.
+     * @param id        unique id of user
+     * @param firstName new value for user first name
+     * @param lastName  new value for user last name
+     * @param group     new value for user group
      */
-    /*List<User> getUsers();*/
+    void updateUser(int id, String firstName, String lastName, Group group);
 
     /**
      * Returns list of users of group with given id
@@ -31,6 +37,4 @@ public interface UserService {
      * @return list of users
      */
     List<User> getUsersByGroup(int groupId);
-
-    void updateUser(int id, String firstName, String lastName, Group group);
 }

@@ -11,11 +11,9 @@ import java.util.List;
 public class UserDaoHibernateImpl extends AbstractDaoHibernateImpl<User>
         implements UserDao {
 
-    /*@Override
-    public List<User> getUsers() {
-        return null;
-    }*/
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> getUsersByGroup(int groupId) {
         return getSession()

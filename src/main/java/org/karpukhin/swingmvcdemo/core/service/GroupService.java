@@ -5,6 +5,8 @@ import org.karpukhin.swingmvcdemo.core.model.Group;
 import java.util.List;
 
 /**
+ * This interface describes the contract that service responsible for managing
+ * {@link Group} entity must follow.
  * @author Pavel Karpukhin
  */
 public interface GroupService {
@@ -16,6 +18,12 @@ public interface GroupService {
      */
     Group createGroup(String name, String description);
 
+    /**
+     * Sets new name and description to the existing group.
+     * @param groupId     unique id of group
+     * @param name        new value for group name
+     * @param description new value for group description
+     */
     void updateGroup(int groupId, String name, String description);
 
     /**

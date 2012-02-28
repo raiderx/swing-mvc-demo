@@ -10,14 +10,8 @@ import java.util.List;
 public interface UserDao extends EntityDao<User> {
 
     /**
-     * Returns list of users
-     * @return list of users
-     */
-    /*List<User> getUsers();*/
-
-    /**
-     * Returns list of users of group with given id
-     * @param groupId group id
+     * Returns list of users of group with given unique id
+     * @param groupId unique id of group
      * @return list of users
      */
     List<User> getUsersByGroup(int groupId);
