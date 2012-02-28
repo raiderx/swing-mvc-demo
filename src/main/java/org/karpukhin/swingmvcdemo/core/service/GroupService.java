@@ -27,6 +27,12 @@ public interface GroupService {
     void updateGroup(int groupId, String name, String description);
 
     /**
+     * Deletes specified group
+     * @param group group
+     */
+    void deleteGroup(Group group);
+
+    /**
      * Returns list of groups
      * @return list of groups
      */

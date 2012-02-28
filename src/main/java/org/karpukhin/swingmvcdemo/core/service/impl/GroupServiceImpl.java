@@ -36,7 +36,18 @@ public class GroupServiceImpl implements GroupService {
      */
     @Override
     public void updateGroup(int groupId, String name, String description) {
+        Group group = groupDao.getById(groupId);
+        group.setName(name);
+        group.setDescription(description);
+        groupDao.saveOrUpdate(group);
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deleteGroup(Group group) {
+        groupDao.delete(group);
     }
 
     /**

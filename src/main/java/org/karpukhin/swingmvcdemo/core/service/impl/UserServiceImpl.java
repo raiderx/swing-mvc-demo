@@ -37,7 +37,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void updateUser(int id, String firstName, String lastName, Group group) {
-
+        User user = userDao.getById(id);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setGroup(group);
+        userDao.saveOrUpdate(user);
     }
 
     /**
