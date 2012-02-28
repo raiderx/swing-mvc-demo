@@ -32,9 +32,28 @@ public interface UserService {
     void updateUser(int id, String firstName, String lastName, Group group);
 
     /**
+     * Deletes specified user
+     * @param user user to delete
+     */
+    void deleteUser(User user);
+
+    /**
+     * Deletes user with specified unique id
+     * @param userId unique id of user
+     */
+    void deleteUser(int userId);
+
+    /**
      * Returns list of users of group with given id
      * @param groupId group id
      * @return list of users
      */
     List<User> getUsersByGroup(int groupId);
+
+    /**
+     * Returns user found by given unique id
+     * @param id unique id of user
+     * @return user
+     */
+    User getUserById(int id);
 }

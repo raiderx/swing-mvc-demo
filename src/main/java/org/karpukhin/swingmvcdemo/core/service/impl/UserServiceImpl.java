@@ -48,7 +48,31 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
+    public void deleteUser(User user) {
+        userDao.delete(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deleteUser(int userId) {
+        userDao.delete(userDao.getById(userId));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<User> getUsersByGroup(int groupId) {
         return userDao.getUsersByGroup(groupId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User getUserById(int id) {
+        return userDao.getById(id);
     }
 }
