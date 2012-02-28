@@ -16,6 +16,12 @@ public interface EntityDao<T extends Entity> {
     void saveOrUpdate(T entity);
 
     /**
+     * Deletes entity by object reference
+     * @param entity entity to delete
+     */
+    void delete(T entity);
+
+    /**
      * Returns entity found by given unique id or {@code null} if entity
      * wasn't found
      * @param id entity's unique id
