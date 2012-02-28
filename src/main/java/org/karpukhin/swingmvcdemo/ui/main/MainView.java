@@ -11,6 +11,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -38,6 +39,7 @@ public class MainView implements MainObserver {
         this.model = model;
         initComponents();
         createLayout();
+        setLocation();
         this.model.registerObserver(this);
         frame.setVisible(true);
     }
@@ -50,6 +52,10 @@ public class MainView implements MainObserver {
         splitPane.setRightComponent(createRightPanel());
     }
 
+    /**
+     * Initializes tree, popup menu
+     * @return tree
+     */
     private JComponent createLeftPanel() {
         treeModel = new DefaultTreeModel(new DefaultMutableTreeNode("Группы"));
         updateGroups();
@@ -85,6 +91,7 @@ public class MainView implements MainObserver {
                 }
             }
         });
+
         leafTreePopupMenu = new JPopupMenu();
         JMenuItem menuItem = new JMenuItem("Добавить пользователя");
         menuItem.addActionListener(new ActionListener() {
@@ -136,10 +143,11 @@ public class MainView implements MainObserver {
         return tree;
     }
 
+    /**
+     * Creates right panel with table inside and its layout
+     * @return panel just created
+     */
     private JComponent createRightPanel() {
-        /*tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[] {"Фамилия", "Имя"});
-        table.setModel(tableModel);*/
         updateUsers();
         JScrollPane scrollPane = new JScrollPane(table);
 
@@ -153,28 +161,25 @@ public class MainView implements MainObserver {
             .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 150, Integer.MAX_VALUE);
 
         layout.setHorizontalGroup(
-                layout./*createParallelGroup()
-                .addGroup(
-                    layout.*/createSequentialGroup()
+                layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(horGroup)
                         .addContainerGap()
-                /*)*/
-        );
+                );
         layout.setVerticalGroup(
-            layout./*createParallelGroup()
-                .addGroup(
-                    layout.*/createSequentialGroup()
+                layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(verGroup)
                         .addContainerGap()
-                    /*)*/
-            );
+                );
 
         panel.setLayout(layout);
         return panel;
     }
 
+    /**
+     * Creates layout of main frame
+     */
     private void createLayout() {
         GroupLayout layout = new GroupLayout(frame.getContentPane());
 
@@ -184,25 +189,27 @@ public class MainView implements MainObserver {
             .addComponent(splitPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Integer.MAX_VALUE);
 
         layout.setHorizontalGroup(
-            layout./*createParallelGroup()
-                .addGroup(
-                    layout.*/createSequentialGroup()
+                layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(horGroup)
                         .addContainerGap()
-                    /*)*/
-            );
+                );
         layout.setVerticalGroup(
-            layout./*createParallelGroup()
-                .addGroup(
-                    layout.*/createSequentialGroup()
+                layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(verGroup)
                         .addContainerGap()
-                    /*)*/
-            );
+                );
 
         frame.getContentPane().setLayout(layout);
+    }
+
+    private void setLocation() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension d = toolkit.getScreenSize();
+            frame.setLocation(
+                (int)(d.getWidth() - frame.getSize().getWidth()) / 2,
+                (int)(d.getHeight() - frame.getSize().getHeight()) / 2);
     }
 
     @Override
@@ -216,9 +223,6 @@ public class MainView implements MainObserver {
 
     @Override
     public void updateUsers() {
-        /*for (int i = 0; i < tableModel.getRowCount(); ++i) {
-            tableModel.removeRow(i);
-        }*/
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[] {"Фамилия", "Имя"});
         int row = -1;
