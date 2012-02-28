@@ -1,22 +1,33 @@
 package org.karpukhin.swingmvcdemo.core.model;
 
 /**
+ * The class represents abstract entity of domain model
  * @author Pavel Karpukhin
  */
-public class Entity {
+public abstract class Entity {
     
     private int id;
 
+    /**
+     * Returns unique id of persistent object
+     * @return unique id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Sets unique if of persistent object
+     * @param id unique id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns a hash code for this entity. The hash code for an object equals
+     * to its unique id.
+     * @return a hash code value for this entity
      */
     @Override
     public int hashCode() {
@@ -24,7 +35,12 @@ public class Entity {
     }
 
     /**
-     * {@inheritDoc}
+     * Compares this entity to the given object. The result is {@code true} if
+     * and only if argument is not {@code null}, the class of this entity equals
+     * to the class of argument and unique id of this entity equals to unique id
+     * of argument.
+     * @param other the object to compare this {@code Entity} against
+     * @return a result of comparison of this enity to the given object
      */
     @Override
     public boolean equals(Object other) {
