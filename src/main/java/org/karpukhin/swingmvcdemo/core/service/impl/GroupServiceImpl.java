@@ -54,6 +54,14 @@ public class GroupServiceImpl implements GroupService {
      * {@inheritDoc}
      */
     @Override
+    public void deleteGroup(int groupId) {
+        groupDao.delete(groupDao.getById(groupId));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Group> getGroups() {
         return groupDao.getGroups();
     }

@@ -28,9 +28,15 @@ public interface GroupService {
 
     /**
      * Deletes specified group
-     * @param group group
+     * @param group group to delete
      */
     void deleteGroup(Group group);
+
+    /**
+     * Deletes group with specified unique id
+     * @param groupId unique id of group
+     */
+    void deleteGroup(int groupId);
 
     /**
      * Returns list of groups
@@ -39,8 +45,8 @@ public interface GroupService {
     List<Group> getGroups();
 
     /**
-     * Returns group found by given id
-     * @param id group id
+     * Returns group found by given unique id
+     * @param id unique id of group
      * @return group
      */
     Group getGroupById(int id);
