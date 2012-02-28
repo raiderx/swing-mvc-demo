@@ -19,3 +19,4 @@ nbproject
 
 # Always ignore these directories/files
 target
+*.log
