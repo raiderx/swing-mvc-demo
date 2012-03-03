@@ -8,4 +8,6 @@ public interface GroupModelObserver {
     void updateTitle();
 
     void updateGroup();
+
+    void updateVisible();
 }

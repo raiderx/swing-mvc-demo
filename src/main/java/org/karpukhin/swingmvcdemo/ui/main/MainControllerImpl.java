@@ -5,7 +5,9 @@ import org.karpukhin.swingmvcdemo.core.model.User;
 import org.karpukhin.swingmvcdemo.core.service.GroupService;
 import org.karpukhin.swingmvcdemo.core.service.UserService;
 import org.karpukhin.swingmvcdemo.ui.group.GroupControllerImpl;
+import org.karpukhin.swingmvcdemo.ui.group.GroupModel;
 import org.karpukhin.swingmvcdemo.ui.user.UserControllerImpl;
+import org.karpukhin.swingmvcdemo.ui.user.UserModel;
 
 import java.util.List;
 
@@ -14,19 +16,21 @@ import java.util.List;
  */
 public class MainControllerImpl implements MainController {
     
-    private MainModel model;
-    private MainView view;
+    private MainModel mainModel;
+    private GroupModel groupModel;
+    private UserModel userModel;
 
     private GroupService groupService;
     private UserService userService;
 
-    public MainControllerImpl(MainModel model, GroupService groupService, UserService userService) {
-        this.model = model;
-        this.view = new MainView(this, model);
+    public MainControllerImpl(MainModel mainModel, GroupModel groupModel, UserModel userModel, GroupService groupService, UserService userService) {
+        this.mainModel = mainModel;
+        this.groupModel = groupModel;
+        this.userModel = userModel;
         this.groupService = groupService;
         this.userService = userService;
         createDemoData();
-        this.model.setGroups(groupService.getGroups());
+        this.mainModel.setGroups(groupService.getGroups());
     }
 
     private void createDemoData() {
@@ -70,51 +74,55 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public void selectGroup(int groupId) {
-        model.setSelectedGroup(groupId);
+        mainModel.setSelectedGroup(groupId);
         List<User> users = userService.getUsersByGroup(groupId);
-        model.setUsers(users);
+        mainModel.setUsers(users);
     }
 
     @Override
     public void addGroup() {
-        GroupControllerImpl groupController = new GroupControllerImpl(view, groupService);
-        groupController.add();
-        model.setGroups(groupService.getGroups());
+        groupModel.setTitle("Добавить группу");
+        groupModel.setGroup(new Group(null, null));
+        groupModel.setVisible(true);
+        mainModel.setGroups(groupService.getGroups());
     }
 
     @Override
     public void editGroup(int groupId) {
-        GroupControllerImpl groupController = new GroupControllerImpl(view, groupService);
-        groupController.edit(groupId);
-        model.setGroups(groupService.getGroups());
+        groupModel.setTitle("Редактировать группу");
+        groupModel.setGroup(groupService.getGroupById(groupId));
+        groupModel.setVisible(true);
+        mainModel.setGroups(groupService.getGroups());
     }
 
     @Override
     public void removeGroup(int groupId) {
         groupService.deleteGroup(groupId);
-        model.setGroups(groupService.getGroups());
+        mainModel.setGroups(groupService.getGroups());
     }
 
     @Override
     public void addUserToGroup(int groupId) {
-        UserControllerImpl userController = new UserControllerImpl(view, groupService, userService);
-        userController.add(groupId);
-        List<User> users = userService.getUsersByGroup(groupId);
-        model.setUsers(users);
+        userModel.setTitle("Добавить пользователя");
+        userModel.setGroups(groupService.getGroups());
+        userModel.setUser(new User(null, null, groupService.getGroupById(groupId)));
+        userModel.setVisible(true);
+        mainModel.setUsers(userService.getUsersByGroup(groupId));
     }
 
     @Override
     public void editUser(int userId) {
-        UserControllerImpl userController = new UserControllerImpl(view, groupService, userService);
-        userController.edit(userId);
-        List<User> users = userService.getUsersByGroup(model.getSelectedGroup());
-        model.setUsers(users);
+        userModel.setTitle("Редактировать пользователя");
+        userModel.setGroups(groupService.getGroups());
+        userModel.setUser(userService.getUserById(userId));
+        userModel.setVisible(true);
+        mainModel.setUsers(userService.getUsersByGroup(mainModel.getSelectedGroup()));
     }
 
     @Override
     public void removeUser(int userId) {
         userService.deleteUser(userId);
-        List<User> users = userService.getUsersByGroup(model.getSelectedGroup());
-        model.setUsers(users);
+        List<User> users = userService.getUsersByGroup(mainModel.getSelectedGroup());
+        mainModel.setUsers(users);
     }
 }

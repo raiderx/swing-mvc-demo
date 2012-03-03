@@ -10,4 +10,6 @@ public interface UserModelObserver {
     void updateGroups();
 
     void updateUser();
+
+    void updateVisible();
 }

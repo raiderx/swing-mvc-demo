@@ -29,7 +29,7 @@ public class UserView implements UserModelObserver {
 
     private KeyValueComboBoxModel comboModel = new KeyValueComboBoxModel();
 
-    public UserView(UserControllerImpl controller, UserModel model, MainView owner) {
+    public UserView(UserController controller, UserModel model, MainView owner) {
         this.controller = controller;
         this.model = model;
         dialog = new JDialog(owner.getFrame(), model.getTitle(), true);
@@ -58,7 +58,11 @@ public class UserView implements UserModelObserver {
             public void actionPerformed(ActionEvent e) {
                 if (validate()) {
                     String key = ((Map.Entry<String, String>)comboModel.getSelectedItem()).getKey();
-                    controller.save(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(key));
+                    if (model.getUser().getId() == null) {
+                        controller.create(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(key));
+                    } else {
+                        controller.save(model.getUser().getId(), firstNameField.getText(), lastNameField.getText(), Integer.parseInt(key));
+                    }
                 }
             }
         });
@@ -152,10 +156,6 @@ public class UserView implements UserModelObserver {
         return true;
     }
 
-    public void show() {
-        dialog.setVisible(true);
-    }
-
     @Override
     public void updateTitle() {
         dialog.setTitle(model.getTitle());
@@ -177,7 +177,8 @@ public class UserView implements UserModelObserver {
         comboModel.setSelectedItemWithKey(Integer.toString(model.getUser().getGroup().getId()));
     }
 
-    public void hide() {
-        dialog.setVisible(false);
+    @Override
+    public void updateVisible() {
+        dialog.setVisible(model.getVisible());
     }
 }

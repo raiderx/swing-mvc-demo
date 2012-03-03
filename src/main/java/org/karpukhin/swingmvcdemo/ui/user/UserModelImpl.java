@@ -16,6 +16,7 @@ public class UserModelImpl implements UserModel {
     private String title;
     private List<Group> groups = new ArrayList<Group>();
     private User user;
+    private boolean visible;
 
     @Override
     public String getTitle() {
@@ -54,6 +55,19 @@ public class UserModelImpl implements UserModel {
     @Override
     public User getUser() {
         return user;
+    }
+
+    @Override
+    public boolean getVisible() {
+        return visible;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+        for (UserModelObserver observer : observers) {
+            observer.updateVisible();
+        }
     }
 
     @Override

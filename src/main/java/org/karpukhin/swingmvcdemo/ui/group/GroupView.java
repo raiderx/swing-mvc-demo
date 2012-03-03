@@ -38,7 +38,11 @@ public class GroupView implements GroupModelObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validate()) {
-                    controller.save(nameField.getText(), descriptionField.getText());
+                    if (model.getGroup().getId() == null) {
+                        controller.create(nameField.getText(), descriptionField.getText());
+                    } else {
+                        controller.save(model.getGroup().getId(), nameField.getText(), descriptionField.getText());
+                    }
                 }
             }
         });
@@ -135,11 +139,8 @@ public class GroupView implements GroupModelObserver {
         descriptionField.setText(model.getGroup().getDescription());
     }
 
-    public void show() {
-        dialog.setVisible(true);
-    }
-
-    public void hide() {
-        dialog.setVisible(false);
+    @Override
+    public void updateVisible() {
+        dialog.setVisible(model.getVisible());
     }
 }

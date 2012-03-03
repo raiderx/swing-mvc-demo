@@ -6,13 +6,13 @@ package org.karpukhin.swingmvcdemo.core.model;
  */
 public abstract class Entity {
     
-    private int id;
+    private Integer id;
 
     /**
      * Returns unique id of persistent object
      * @return unique id
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -20,7 +20,7 @@ public abstract class Entity {
      * Sets unique if of persistent object
      * @param id unique id
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

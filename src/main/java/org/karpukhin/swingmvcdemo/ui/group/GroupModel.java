@@ -31,6 +31,10 @@ public interface GroupModel {
      */
     void setGroup(Group group);
 
+    boolean getVisible();
+
+    void setVisible(boolean visible);
+
     /**
      * Registers model observer
      * @param observer model observer

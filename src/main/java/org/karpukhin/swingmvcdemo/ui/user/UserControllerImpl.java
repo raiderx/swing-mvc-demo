@@ -12,54 +12,32 @@ import org.karpukhin.swingmvcdemo.ui.main.MainView;
 public class UserControllerImpl implements UserController {
 
     private UserModel model;
-    private UserView view;
     private GroupService groupService;
     private UserService userService;
     
-    private int userId = -1;
-    private boolean creating = false;
-
-    public UserControllerImpl(MainView owner, GroupService groupService, UserService userService) {
-        this.model = new UserModelImpl();
-        this.view = new UserView(this, model, owner);
+    public UserControllerImpl(UserModel model, GroupService groupService, UserService userService) {
+        this.model = model;
         this.groupService = groupService;
         this.userService = userService;
     }
 
-    public void add(final int groupId) {
-        creating = true;
-        userId = -1;
-        model.setTitle("Добавить пользователя");
-        model.setGroups(groupService.getGroups());
-        User user = new User(null, null, groupService.getGroupById(groupId));
-        model.setUser(user);
-        view.show();
-    }
-
-    public void edit(final int userId) {
-        creating = false;
-        this.userId = userId;
-        model.setTitle("Редактировать пользователя");
-        model.setGroups(groupService.getGroups());
-        model.setUser(userService.getUserById(userId));
-        view.show();
+    @Override
+    public void create(String firstName, String lastName, int groupId) {
+        Group group = groupService.getGroupById(groupId);
+        userService.createUser(firstName, lastName, group);
+        model.setVisible(false);
     }
 
     @Override
-    public void save(String firstName, String lastName, int groupId) {
-        if (creating) {
-            Group group = groupService.getGroupById(groupId);
-            userService.createUser(firstName, lastName, group);
-        } else {
-            Group group = groupService.getGroupById(groupId);
-            userService.updateUser(userId, firstName, lastName, group);
-        }
-        view.hide();
+    public void save(int id, String firstName, String lastName, int groupId) {
+        Group group = groupService.getGroupById(groupId);
+        userService.updateUser(id, firstName, lastName, group);
+        model.setVisible(false);
     }
 
     @Override
     public void cancel() {
-        view.hide();
+        model.setVisible(false);
     }
 
     private boolean validate(String firstName, String lastName, int groupId) {

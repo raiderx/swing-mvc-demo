@@ -13,6 +13,7 @@ public class GroupModelImpl implements GroupModel {
     private List<GroupModelObserver> observers = new LinkedList<GroupModelObserver>();
     private String title;
     private Group group;
+    private boolean visible = false;
 
     @Override
     public String getTitle() {
@@ -45,6 +46,19 @@ public class GroupModelImpl implements GroupModel {
         this.group = group;
         for (GroupModelObserver observer : observers) {
             observer.updateGroup();
+        }
+    }
+
+    @Override
+    public boolean getVisible() {
+        return visible;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+        for (GroupModelObserver observer : observers) {
+            observer.updateVisible();
         }
     }
 

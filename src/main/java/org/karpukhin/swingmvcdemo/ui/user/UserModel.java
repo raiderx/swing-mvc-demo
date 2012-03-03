@@ -22,5 +22,9 @@ public interface UserModel {
 
     User getUser();
 
+    boolean getVisible();
+
+    void setVisible(boolean visible);
+
     void registerObserver(UserModelObserver observer);
 }
