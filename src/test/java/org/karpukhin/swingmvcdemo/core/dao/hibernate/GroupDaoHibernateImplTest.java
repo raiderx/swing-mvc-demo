@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 
 /**
@@ -24,24 +25,25 @@ public class GroupDaoHibernateImplTest extends AbstractTransactionalJUnit4Spring
     @Autowired
     private GroupDao groupDao;
     
-    private Group group;
+    private Group predefinedGroup;
 
     @Before
     public void setUp() {
-        group = new Group("some group", "some group description");
-        groupDao.saveOrUpdate(group);
+        predefinedGroup = new Group("some group", "some group description");
+        groupDao.saveOrUpdate(predefinedGroup);
     }
 
     @Test
     public void testCreateGroup() {
         Group group = new Group("name", "description");
         groupDao.saveOrUpdate(group);
-        assertNotSame(0, group.getId());
+        assertNotNull(group.getId());
+        assertNotSame(0, group.getId().intValue());
     }
 
     @Test
     public void testDeleteGroup() {
-        groupDao.delete(group);
+        groupDao.delete(predefinedGroup);
     }
 
     @Test
