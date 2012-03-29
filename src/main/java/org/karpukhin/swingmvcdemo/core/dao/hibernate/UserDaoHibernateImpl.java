@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Pavel Karpukhin
  */
-public class UserDaoHibernateImpl extends AbstractDaoHibernateImpl<User>
+public class UserDaoHibernateImpl extends AbstractEntityDaoHibernateImpl<User>
         implements UserDao {
 
     /**

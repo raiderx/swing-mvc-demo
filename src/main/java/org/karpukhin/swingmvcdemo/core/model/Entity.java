@@ -40,7 +40,7 @@ public abstract class Entity {
      * to the class of argument and unique id of this entity equals to unique id
      * of argument.
      * @param other the object to compare this {@code Entity} against
-     * @return a result of comparison of this enity to the given object
+     * @return a result of comparison of this entity to the given object
      */
     @Override
     public boolean equals(Object other) {
@@ -51,6 +51,6 @@ public abstract class Entity {
             return false;
         }
         Entity that = (Entity) other;
-        return id == that.id;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 }

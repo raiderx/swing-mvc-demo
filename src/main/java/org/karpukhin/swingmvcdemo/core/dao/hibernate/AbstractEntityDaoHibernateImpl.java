@@ -8,10 +8,16 @@ import org.karpukhin.swingmvcdemo.core.model.Entity;
 import java.lang.reflect.ParameterizedType;
 
 /**
- * Most of this class methods were taken from http://www.javatalks.ru project
- * @author Pavel Karpukhin
+ * Basic class for access to the {@link Entity} objects.
+ * It is used to load objects from database, save, update or delete them.
+ * The implementation is based on the Hibernate.
+ *
+ * These methods were taken from http://www.javatalks.ru project.
+ *
+ * @author Pavel Vervenko
+ * @author Kirill Afonin
  */
-public class AbstractDaoHibernateImpl<T extends Entity> implements EntityDao<T> {
+public class AbstractEntityDaoHibernateImpl<T extends Entity> implements EntityDao<T> {
 
     /**
      * Hibernate SessionFactory

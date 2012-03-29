@@ -12,7 +12,7 @@ public class Group extends Entity {
     /**
      * Default constructor
      */
-    protected Group() {
+    public Group() {
     }
 
     /**

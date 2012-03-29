@@ -13,7 +13,7 @@
           class="org.karpukhin.swingmvcdemo.core.dao.hibernate.UserDaoHibernateImpl"
           parent="abstractHibernateDao"/>
     <bean id="abstractHibernateDao"
-          class="org.karpukhin.swingmvcdemo.core.dao.hibernate.AbstractDaoHibernateImpl"
+          class="org.karpukhin.swingmvcdemo.core.dao.hibernate.AbstractEntityDaoHibernateImpl"
           abstract="true">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -43,6 +43,9 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.cache.use_query_cache">${hibernate.use_query_cache}</prop>
+                <prop key="hibernate.cache.use_second_level_cache">${hibernate.use_second_level_cache}</prop>
+                <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
             </props>
         </property>
     </bean>

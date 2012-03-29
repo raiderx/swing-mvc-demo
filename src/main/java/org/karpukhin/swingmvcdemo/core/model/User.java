@@ -13,7 +13,7 @@ public class User extends Entity {
     /**
      * Default constructor
      */
-    protected User() {
+    public User() {
     }
 
     /**

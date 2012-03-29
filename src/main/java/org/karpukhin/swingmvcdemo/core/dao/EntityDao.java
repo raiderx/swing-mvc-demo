@@ -5,6 +5,9 @@ import org.karpukhin.swingmvcdemo.core.model.Entity;
 /**
  * This interface describes contract that DAO of entities responsible for
  * managing their lifecycle themselves, must follow.
+ *
+ * Most of methods were taken from http://www.javatalks.ru project
+ *
  * @author Pavel Karpukhin
  */
 public interface EntityDao<T extends Entity> {

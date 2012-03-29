@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Pavel Karpukhin
  */
-public class GroupDaoHibernateImpl extends AbstractDaoHibernateImpl<Group>
+public class GroupDaoHibernateImpl extends AbstractEntityDaoHibernateImpl<Group>
         implements GroupDao {
 
     /**
