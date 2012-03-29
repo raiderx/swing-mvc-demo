@@ -14,6 +14,7 @@ public class GroupView implements GroupModelObserver {
     private GroupController controller;
     private GroupModel model;
 
+    private JFrame owner;
     private JDialog dialog;
     private JLabel nameLabel = new JLabel("Название");
     private JTextField nameField = new JTextField();
@@ -25,11 +26,15 @@ public class GroupView implements GroupModelObserver {
     public GroupView(GroupController controller, GroupModel model, MainView owner) {
         this.controller = controller;
         this.model = model;
-        dialog = new JDialog(owner.getFrame(), model.getTitle(), true);
+        this.owner = owner.getFrame();
+    }
+
+    public void init() {
+        dialog = new JDialog(owner, model.getTitle(), true);
         initComponents();
         createLayout();
         dialog.setSize(300, 200);
-        setLocation(owner.getFrame());
+        setLocation(owner);
         model.registerObserver(this);
     }
 
@@ -142,5 +147,6 @@ public class GroupView implements GroupModelObserver {
     @Override
     public void updateVisible() {
         dialog.setVisible(model.getVisible());
+        nameField.requestFocusInWindow();
     }
 }

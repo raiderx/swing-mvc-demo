@@ -5,6 +5,10 @@ package org.karpukhin.swingmvcdemo.ui.user;
  */
 public interface UserController {
 
+    void addUserToGroup(int groupId);
+
+    void editUser(int userId);
+
     void create(String firstName, String lastName, int groupId);
 
     /**

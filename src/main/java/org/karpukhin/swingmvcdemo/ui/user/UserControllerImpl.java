@@ -4,7 +4,6 @@ import org.karpukhin.swingmvcdemo.core.model.Group;
 import org.karpukhin.swingmvcdemo.core.model.User;
 import org.karpukhin.swingmvcdemo.core.service.GroupService;
 import org.karpukhin.swingmvcdemo.core.service.UserService;
-import org.karpukhin.swingmvcdemo.ui.main.MainView;
 
 /**
  * @author Pavel Karpukhin
@@ -19,6 +18,22 @@ public class UserControllerImpl implements UserController {
         this.model = model;
         this.groupService = groupService;
         this.userService = userService;
+    }
+
+    @Override
+    public void addUserToGroup(int groupId) {
+        model.setTitle("Добавить пользователя");
+        model.setGroups(groupService.getGroups());
+        model.setUser(new User(null, null, groupService.getGroupById(groupId)));
+        model.setVisible(true);
+    }
+
+    @Override
+    public void editUser(int userId) {
+        model.setTitle("Редактировать пользователя");
+        model.setGroups(groupService.getGroups());
+        model.setUser(userService.getUserById(userId));
+        model.setVisible(true);
     }
 
     @Override

@@ -17,6 +17,7 @@ public class UserView implements UserModelObserver {
     private UserController controller;
     private UserModel model;
 
+    private JFrame owner;
     private JDialog dialog;
     private JLabel firstNameLabel = new JLabel("Имя");
     private JTextField firstNameField = new JTextField();
@@ -32,11 +33,15 @@ public class UserView implements UserModelObserver {
     public UserView(UserController controller, UserModel model, MainView owner) {
         this.controller = controller;
         this.model = model;
-        dialog = new JDialog(owner.getFrame(), model.getTitle(), true);
+        this.owner = owner.getFrame();
+    }
+
+    public void init() {
+        dialog = new JDialog(owner, model.getTitle(), true);
         initComponents();
         createLayout();
         dialog.setSize(300, 200);
-        setLocation(owner.getFrame());
+        setLocation(owner);
         model.registerObserver(this);
     }
 
@@ -180,5 +185,6 @@ public class UserView implements UserModelObserver {
     @Override
     public void updateVisible() {
         dialog.setVisible(model.getVisible());
+        firstNameField.requestFocusInWindow();
     }
 }

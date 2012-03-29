@@ -4,10 +4,8 @@ import org.karpukhin.swingmvcdemo.core.model.Group;
 import org.karpukhin.swingmvcdemo.core.model.User;
 import org.karpukhin.swingmvcdemo.core.service.GroupService;
 import org.karpukhin.swingmvcdemo.core.service.UserService;
-import org.karpukhin.swingmvcdemo.ui.group.GroupControllerImpl;
-import org.karpukhin.swingmvcdemo.ui.group.GroupModel;
-import org.karpukhin.swingmvcdemo.ui.user.UserControllerImpl;
-import org.karpukhin.swingmvcdemo.ui.user.UserModel;
+import org.karpukhin.swingmvcdemo.ui.group.GroupController;
+import org.karpukhin.swingmvcdemo.ui.user.UserController;
 
 import java.util.List;
 
@@ -17,16 +15,16 @@ import java.util.List;
 public class MainControllerImpl implements MainController {
     
     private MainModel mainModel;
-    private GroupModel groupModel;
-    private UserModel userModel;
+    private GroupController groupController;
+    private UserController userController;
 
     private GroupService groupService;
     private UserService userService;
 
-    public MainControllerImpl(MainModel mainModel, GroupModel groupModel, UserModel userModel, GroupService groupService, UserService userService) {
+    public MainControllerImpl(MainModel mainModel, GroupController groupController, UserController userController, GroupService groupService, UserService userService) {
         this.mainModel = mainModel;
-        this.groupModel = groupModel;
-        this.userModel = userModel;
+        this.groupController = groupController;
+        this.userController = userController;
         this.groupService = groupService;
         this.userService = userService;
         createDemoData();
@@ -81,17 +79,13 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public void addGroup() {
-        groupModel.setTitle("Добавить группу");
-        groupModel.setGroup(new Group(null, null));
-        groupModel.setVisible(true);
+        groupController.addGroup();
         mainModel.setGroups(groupService.getGroups());
     }
 
     @Override
     public void editGroup(int groupId) {
-        groupModel.setTitle("Редактировать группу");
-        groupModel.setGroup(groupService.getGroupById(groupId));
-        groupModel.setVisible(true);
+        groupController.editGroup(groupId);
         mainModel.setGroups(groupService.getGroups());
     }
 
@@ -103,19 +97,13 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public void addUserToGroup(int groupId) {
-        userModel.setTitle("Добавить пользователя");
-        userModel.setGroups(groupService.getGroups());
-        userModel.setUser(new User(null, null, groupService.getGroupById(groupId)));
-        userModel.setVisible(true);
+        userController.addUserToGroup(groupId);
         mainModel.setUsers(userService.getUsersByGroup(groupId));
     }
 
     @Override
     public void editUser(int userId) {
-        userModel.setTitle("Редактировать пользователя");
-        userModel.setGroups(groupService.getGroups());
-        userModel.setUser(userService.getUserById(userId));
-        userModel.setVisible(true);
+        userController.editUser(userId);
         mainModel.setUsers(userService.getUsersByGroup(mainModel.getSelectedGroup()));
     }
 

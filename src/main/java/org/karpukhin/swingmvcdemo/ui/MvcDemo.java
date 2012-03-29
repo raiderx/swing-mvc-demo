@@ -29,13 +29,17 @@ public class MvcDemo {
                 GroupModel groupModel = new GroupModelImpl();
                 UserModel userModel = new UserModelImpl();
                 
-                MainController mainController = new MainControllerImpl(mainModel, groupModel, userModel, groupService, userService);
                 GroupController groupController = new GroupControllerImpl(groupModel, groupService);
                 UserController userController = new UserControllerImpl(userModel, groupService, userService);
-                
+                MainController mainController = new MainControllerImpl(mainModel, groupController, userController, groupService, userService);
+
                 MainView mainView = new MainView(mainController, mainModel);
                 GroupView groupView = new GroupView(groupController, groupModel, mainView);
                 UserView userView = new UserView(userController, userModel, mainView);
+
+                mainView.init();
+                groupView.init();
+                userView.init();
             }
         });
     }

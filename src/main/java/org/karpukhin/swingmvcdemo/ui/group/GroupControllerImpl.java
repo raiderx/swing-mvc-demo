@@ -1,7 +1,7 @@
 package org.karpukhin.swingmvcdemo.ui.group;
 
+import org.karpukhin.swingmvcdemo.core.model.Group;
 import org.karpukhin.swingmvcdemo.core.service.GroupService;
-import org.karpukhin.swingmvcdemo.ui.main.MainView;
 
 /**
  * @author Pavel Karpukhin
@@ -14,6 +14,20 @@ public class GroupControllerImpl implements GroupController {
     public GroupControllerImpl(GroupModel model, GroupService groupService) {
         this.model = model;
         this.groupService = groupService;
+    }
+
+    @Override
+    public void addGroup() {
+        model.setTitle("Добавить группу");
+        model.setGroup(new Group());
+        model.setVisible(true);
+    }
+
+    @Override
+    public void editGroup(int id) {
+        model.setTitle("Редактировать группу");
+        model.setGroup(groupService.getGroupById(id));
+        model.setVisible(true);
     }
 
     @Override

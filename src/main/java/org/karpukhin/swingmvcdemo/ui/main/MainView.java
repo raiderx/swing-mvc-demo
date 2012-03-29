@@ -36,10 +36,13 @@ public class MainView implements MainModelObserver {
     public MainView(MainController controller, MainModel model) {
         this.controller = controller;
         this.model = model;
+    }
+
+    public void init() {
         initComponents();
         createLayout();
         setLocation();
-        this.model.registerObserver(this);
+        model.registerObserver(this);
         frame.setVisible(true);
     }
 
@@ -152,6 +155,9 @@ public class MainView implements MainModelObserver {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    controller.editUser(tableModel.getUserAt(table.getSelectedRow()).getId());
+                }
                 if (e.isPopupTrigger() && table.getSelectedRow() != -1) {
                     tablePopupMenu.show(table, e.getX(), e.getY());
                 }
