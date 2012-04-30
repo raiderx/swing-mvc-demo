@@ -38,7 +38,7 @@ public class MvcDemo {
                 MainController mainController = new MainControllerImpl(mainModel, groupController, userController, groupService, userService);
 
                 MainView mainView = new MainView(mainController, mainModel, messageSource);
-                GroupView groupView = new GroupView(groupController, groupModel, mainView);
+                GroupView groupView = new GroupView(groupController, groupModel, mainView, messageSource);
                 UserView userView = new UserView(userController, userModel, mainView, messageSource);
 
                 mainView.init();

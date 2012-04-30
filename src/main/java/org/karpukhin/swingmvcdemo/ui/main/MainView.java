@@ -27,7 +27,7 @@ public class MainView implements MainModelObserver {
     private MessageSource messageSource;
 
     private DefaultTreeModel treeModel;
-    private UserTableModel tableModel = new UserTableModel();
+    private UserTableModel tableModel;
 
     private JFrame frame = new JFrame();
     private JSplitPane splitPane = new JSplitPane();
@@ -55,6 +55,8 @@ public class MainView implements MainModelObserver {
         frame.setTitle(getMessage("mainView.title"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 450);
+
+        tableModel = new UserTableModel(messageSource);
 
         splitPane.setLeftComponent(createLeftPanel());
         splitPane.setRightComponent(createRightPanel());

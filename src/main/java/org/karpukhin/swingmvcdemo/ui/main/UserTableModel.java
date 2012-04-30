@@ -1,10 +1,12 @@
 package org.karpukhin.swingmvcdemo.ui.main;
 
 import org.karpukhin.swingmvcdemo.core.model.User;
+import org.springframework.context.MessageSource;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Pavel Karpukhin
@@ -12,9 +14,14 @@ import java.util.List;
 public class UserTableModel extends AbstractTableModel {
 
     private static final int COLUMNS_COUNT = 2;
-    private static final String[] columnNames = {"Фамилия", "Имя"};
+    private static final String[] columnNames = {"label.last.name", "label.first.name"};
 
     private List<User> users = new LinkedList<User>();
+    private MessageSource messageSource;
+
+    public UserTableModel(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @Override
     public int getRowCount() {
@@ -33,7 +40,7 @@ public class UserTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return columnNames[column];
+        return getMessage(columnNames[column]);
     }
 
     @Override
@@ -55,5 +62,9 @@ public class UserTableModel extends AbstractTableModel {
 
     public User getUserAt(int rowIndex) {
         return users.get(rowIndex);
+    }
+
+    private String getMessage(String code) {
+        return messageSource.getMessage(code, null, code, Locale.getDefault());
     }
 }
