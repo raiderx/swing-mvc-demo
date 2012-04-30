@@ -6,61 +6,85 @@ import java.util.*;
 /**
  * @author Pavel Karpukhin
  */
-public class KeyValueComboBoxModel extends AbstractListModel
-	implements ComboBoxModel {
+public class KeyValueComboBoxModel<K, V>
+        extends AbstractListModel
+        implements ComboBoxModel {
 
-	private Map<String, String> values = new TreeMap<String, String>();
-	private Map.Entry<String, String> selectedItem = null;
+    private Map<K, V> elements = new TreeMap<K, V>();
+    private Map.Entry<K, V> selected;
+    private Map<Integer, K> indexKeyMap = new TreeMap<Integer, K>();
+    private Map<K, Integer> keyIndexMap = new TreeMap<K, Integer>();
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-	public int getSize() {
-		return values.size();
-	}
+    public int getSize() {
+        return elements.size();
+    }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-	public Object getElementAt(int index) {
-		List<Map.Entry<String, String>> list =
-			new LinkedList<Map.Entry<String, String>>(values.entrySet());
-		return list.get(index);
+    public Map.Entry<? extends K, ? extends V> getElementAt(int index) {
+        K key = indexKeyMap.get(index);
+        return new AbstractMap.SimpleEntry(key, elements.get(key));
+    }
 
-	}
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
-	public void setSelectedItem(Object anItem) {
-		selectedItem = (Map.Entry<String, String>) anItem;
-		fireContentsChanged(this, -1, -1);
-	}
+    public void setSelectedItem(Object anItem) {
+        if (anItem == null || !(anItem instanceof Map.Entry)) {
+            return;
+        }
+        if (selected == null || !selected.equals(anItem)) {
+            Map.Entry entry = (Map.Entry)anItem;
+            if (elements.containsKey(entry.getKey())) {
+                selected = entry;
+                fireContentsChanged(this, -1, -1);
+            }
+        }
+    }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-	public Object getSelectedItem() {
-		return selectedItem;
-	}
-    
-	public void put(String key, String value) {
-		values.put(key, value);
-	}
+    public Object getSelectedItem() {
+        return selected;
+    }
 
-	public void clear() {
-		values.clear();
-	}
+    public void put(K key, V value) {
+        if (!elements.containsKey(key)) {
+            int index = elements.size();
+            keyIndexMap.put(key, index);
+            indexKeyMap.put(index, key);
+        }
+        elements.put(key, value);
+        fireContentsChanged(this, 0, elements.size());
+    }
 
-    public void setSelectedItemWithKey(String key) {
-        if (values.containsKey(key)) {
-            setSelectedItem(new AbstractMap.SimpleEntry<String, String>(key, values.get(key)));
+    public void clear() {
+        if (!elements.isEmpty()) {
+            int lastIndex = elements.size() - 1;
+            elements.clear();
+            selected = null;
+            fireIntervalRemoved(this, 0, lastIndex);
+        } else {
+            selected = null;
+        }
+    }
+
+    public void setSelectedItemWithKey(K key) {
+        if (elements.containsKey(key)) {
+            setSelectedItem(new AbstractMap.SimpleEntry<K, V>(key, elements.get(key)));
         } else {
             throw new IllegalArgumentException("ComboBoxModel doesn't contain element with key " + key);
         }
+    }
+
+    public K getSelectedKey() {
+        if (selected == null) {
+            return null;
+        }
+        return selected.getKey();
+    }
+
+    public V getSelectedValue() {
+        if (selected == null) {
+            return null;
+        }
+        return selected.getValue();
     }
 }

@@ -2,11 +2,15 @@ package org.karpukhin.swingmvcdemo.ui.user;
 
 import org.karpukhin.swingmvcdemo.core.model.Group;
 import org.karpukhin.swingmvcdemo.ui.main.MainView;
+import org.springframework.context.MessageSource;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -16,24 +20,26 @@ public class UserView implements UserModelObserver {
 
     private UserController controller;
     private UserModel model;
+    private MessageSource messageSource;
 
     private JFrame owner;
     private JDialog dialog;
-    private JLabel firstNameLabel = new JLabel("Имя");
+    private JLabel firstNameLabel = new JLabel();
     private JTextField firstNameField = new JTextField();
-    private JLabel lastNameLabel = new JLabel("Фамилия");
+    private JLabel lastNameLabel = new JLabel();
     private JTextField lastNameField = new JTextField();
-    private JLabel groupLabel = new JLabel("Группа");
+    private JLabel groupLabel = new JLabel();
     private JComboBox groupCombo = new JComboBox();
-    private JButton saveButton = new JButton("Сохранить");
-    private JButton cancelButton = new JButton("Отмена");
+    private JButton saveButton = new JButton();
+    private JButton cancelButton = new JButton();
 
-    private KeyValueComboBoxModel comboModel = new KeyValueComboBoxModel();
+    private KeyValueComboBoxModel<String, String> comboModel = new KeyValueComboBoxModel();
 
-    public UserView(UserController controller, UserModel model, MainView owner) {
+    public UserView(UserController controller, UserModel model, MainView owner, MessageSource messageSource) {
         this.controller = controller;
         this.model = model;
         this.owner = owner.getFrame();
+        this.messageSource = messageSource;
     }
 
     public void init() {
@@ -46,23 +52,28 @@ public class UserView implements UserModelObserver {
     }
 
     private void initComponents() {
+        firstNameLabel.setText(getMessage("label.first.name"));
+        lastNameLabel.setText(getMessage("label.last.name"));
+        groupLabel.setText(getMessage("label.group"));
+
         groupCombo.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index,
-                    boolean isSelected, boolean cellHasFocus) {
+                                                          boolean isSelected, boolean cellHasFocus) {
                 if (value instanceof Map.Entry) {
-                    Map.Entry<String,String> entry = (Map.Entry<String, String>) value;
+                    Map.Entry<String, String> entry = (Map.Entry<String, String>) value;
                     value = entry.getValue();
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
         });
         groupCombo.setModel(comboModel);
+        saveButton.setText(getMessage("label.save"));
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validate()) {
-                    String key = ((Map.Entry<String, String>)comboModel.getSelectedItem()).getKey();
+                    String key = comboModel.getSelectedKey();
                     if (model.getUser().getId() == null) {
                         controller.create(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(key));
                     } else {
@@ -71,6 +82,7 @@ public class UserView implements UserModelObserver {
                 }
             }
         });
+        cancelButton.setText(getMessage("label.cancel"));
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,20 +129,19 @@ public class UserView implements UserModelObserver {
             .addGroup(layout.createParallelGroup()
                 .addComponent(groupLabel)
                 .addComponent(groupCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                )
+            )
             .addGap(0, 0, Integer.MAX_VALUE)
             .addGroup(layout.createParallelGroup()
                 .addComponent(saveButton)
                 .addComponent(cancelButton)
-                )
-            ;
+            );
 
         layout.setHorizontalGroup(
-            layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(horGroup)
-                .addContainerGap()
-            );
+                layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(horGroup)
+                        .addContainerGap()
+        );
         layout.setVerticalGroup(
             layout.createSequentialGroup()
                 .addContainerGap()
@@ -159,6 +170,10 @@ public class UserView implements UserModelObserver {
             return false;
         }
         return true;
+    }
+
+    private String getMessage(String code) {
+        return messageSource.getMessage(code, null, code, Locale.getDefault());
     }
 
     @Override

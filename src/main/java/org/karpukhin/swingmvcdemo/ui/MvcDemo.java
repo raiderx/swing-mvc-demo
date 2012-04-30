@@ -6,6 +6,7 @@ import org.karpukhin.swingmvcdemo.ui.group.*;
 import org.karpukhin.swingmvcdemo.ui.main.*;
 import org.karpukhin.swingmvcdemo.ui.user.*;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.awt.*;
@@ -21,9 +22,12 @@ public class MvcDemo {
             public void run() {
                 ApplicationContext context = new ClassPathXmlApplicationContext(
                         "classpath:/org/karpukhin/swingmvcdemo/core/dao/applicationContext-dao.xml",
-                        "classpath:/org/karpukhin/swingmvcdemo/core/service/applicationContext-service.xml");
+                        "classpath:/org/karpukhin/swingmvcdemo/core/service/applicationContext-service.xml",
+                        "classpath:/org/karpukhin/swingmvcdemo/ui/applicationContext-ui.xml");
                 GroupService groupService = context.getBean(GroupService.class);
                 UserService userService = context.getBean(UserService.class);
+
+                MessageSource messageSource = context.getBean(MessageSource.class);
                 
                 MainModel mainModel = new MainModelImpl();
                 GroupModel groupModel = new GroupModelImpl();
@@ -33,9 +37,9 @@ public class MvcDemo {
                 UserController userController = new UserControllerImpl(userModel, groupService, userService);
                 MainController mainController = new MainControllerImpl(mainModel, groupController, userController, groupService, userService);
 
-                MainView mainView = new MainView(mainController, mainModel);
+                MainView mainView = new MainView(mainController, mainModel, messageSource);
                 GroupView groupView = new GroupView(groupController, groupModel, mainView);
-                UserView userView = new UserView(userController, userModel, mainView);
+                UserView userView = new UserView(userController, userModel, mainView, messageSource);
 
                 mainView.init();
                 groupView.init();

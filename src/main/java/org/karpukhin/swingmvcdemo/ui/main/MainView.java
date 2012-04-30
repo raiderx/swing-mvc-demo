@@ -1,6 +1,7 @@
 package org.karpukhin.swingmvcdemo.ui.main;
 
 import org.karpukhin.swingmvcdemo.core.model.Group;
+import org.springframework.context.MessageSource;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -14,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Locale;
 
 /**
  * @author Pavel Karpukhin
@@ -22,10 +24,12 @@ public class MainView implements MainModelObserver {
 
     private MainController controller;
     private MainModel model;
+    private MessageSource messageSource;
+
     private DefaultTreeModel treeModel;
     private UserTableModel tableModel = new UserTableModel();
 
-    private JFrame frame = new JFrame("MVC Demo");
+    private JFrame frame = new JFrame();
     private JSplitPane splitPane = new JSplitPane();
     private JTree tree = new JTree();
     private JTable table = new JTable();
@@ -33,9 +37,10 @@ public class MainView implements MainModelObserver {
     private JPopupMenu leafTreePopupMenu;
     private JPopupMenu tablePopupMenu;
 
-    public MainView(MainController controller, MainModel model) {
+    public MainView(MainController controller, MainModel model, MessageSource messageSource) {
         this.controller = controller;
         this.model = model;
+        this.messageSource = messageSource;
     }
 
     public void init() {
@@ -47,6 +52,7 @@ public class MainView implements MainModelObserver {
     }
 
     private void initComponents() {
+        frame.setTitle(getMessage("mainView.title"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 450);
 
@@ -59,7 +65,7 @@ public class MainView implements MainModelObserver {
      * @return tree
      */
     private JComponent createLeftPanel() {
-        treeModel = new DefaultTreeModel(new DefaultMutableTreeNode("Группы"));
+        treeModel = new DefaultTreeModel(new DefaultMutableTreeNode(getMessage("label.groups")));
         updateGroups();
         tree.setModel(treeModel);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -95,7 +101,7 @@ public class MainView implements MainModelObserver {
         });
 
         leafTreePopupMenu = new JPopupMenu();
-        JMenuItem menuItem = new JMenuItem("Добавить пользователя");
+        JMenuItem menuItem = new JMenuItem(getMessage("label.add.user"));
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -106,7 +112,7 @@ public class MainView implements MainModelObserver {
             }
         });
         leafTreePopupMenu.add(menuItem);
-        menuItem = new JMenuItem("Переименовать группу");
+        menuItem = new JMenuItem(getMessage("label.rename.group"));
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,7 +123,7 @@ public class MainView implements MainModelObserver {
             }
         });
         leafTreePopupMenu.add(menuItem);
-        menuItem = new JMenuItem("Удалить группу");
+        menuItem = new JMenuItem(getMessage("label.remove.group"));
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,7 +136,7 @@ public class MainView implements MainModelObserver {
         leafTreePopupMenu.add(menuItem);
 
         rootTreePopupMenu = new JPopupMenu();
-        menuItem = new JMenuItem("Добавить группу");
+        menuItem = new JMenuItem(getMessage("label.add.group"));
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -190,7 +196,7 @@ public class MainView implements MainModelObserver {
         panel.setLayout(layout);
 
         tablePopupMenu = new JPopupMenu();
-        JMenuItem menuItem = new JMenuItem("Добавить пользователя");
+        JMenuItem menuItem = new JMenuItem(getMessage("label.add.user"));
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -198,7 +204,7 @@ public class MainView implements MainModelObserver {
             }
         });
         tablePopupMenu.add(menuItem);
-        menuItem = new JMenuItem("Изменить пользователя");
+        menuItem = new JMenuItem(getMessage("label.edit.user"));
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,7 +212,7 @@ public class MainView implements MainModelObserver {
             }
         });
         tablePopupMenu.add(menuItem);
-        menuItem = new JMenuItem("Удалить пользователя");
+        menuItem = new JMenuItem(getMessage("label.remove.user"));
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -252,9 +258,13 @@ public class MainView implements MainModelObserver {
                     (int) (d.getHeight() - frame.getSize().getHeight()) / 2);
     }
 
+    private String getMessage(String code) {
+        return messageSource.getMessage(code, null, code, Locale.getDefault());
+    }
+
     @Override
     public void updateGroups() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Группы");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(getMessage("label.groups"));
         for (Group group : model.getGroups()) {
             root.add(new DefaultMutableTreeNode(new TreeNodeObject(group.getId(), group.getName())));
         }
