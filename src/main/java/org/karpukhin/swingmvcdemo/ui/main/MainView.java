@@ -56,6 +56,7 @@ public class MainView implements MainModelObserver {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 450);
 
+        treeModel = new DefaultTreeModel(new DefaultMutableTreeNode(getMessage("label.groups")));
         tableModel = new UserTableModel(messageSource);
 
         splitPane.setLeftComponent(createLeftPanel());
@@ -67,7 +68,6 @@ public class MainView implements MainModelObserver {
      * @return tree
      */
     private JComponent createLeftPanel() {
-        treeModel = new DefaultTreeModel(new DefaultMutableTreeNode(getMessage("label.groups")));
         updateGroups();
         tree.setModel(treeModel);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);

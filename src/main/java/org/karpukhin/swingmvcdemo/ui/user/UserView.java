@@ -1,6 +1,7 @@
 package org.karpukhin.swingmvcdemo.ui.user;
 
 import org.karpukhin.swingmvcdemo.core.model.Group;
+import org.karpukhin.swingmvcdemo.ui.common.KeyValueComboBoxModel;
 import org.karpukhin.swingmvcdemo.ui.main.MainView;
 import org.springframework.context.MessageSource;
 
@@ -8,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Locale;
 import java.util.Map;
 

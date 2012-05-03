@@ -12,7 +12,7 @@ public interface UserController {
     void create(String firstName, String lastName, int groupId);
 
     /**
-     * Saves user with given first name, last name and group id
+     * Saves user with given first name, last name, group id and closes the dialog
      * @param firstName first name
      * @param lastName  last name
      * @param groupId   group id
@@ -20,7 +20,7 @@ public interface UserController {
     void save(int id, String firstName, String lastName, int groupId);
 
     /**
-     * Cancels all modifications
+     * Cancels changes made and closes the dialog
      */
     void cancel();
 }

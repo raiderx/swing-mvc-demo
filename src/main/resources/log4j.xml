@@ -11,7 +11,7 @@
     </appender>
 
     <!-- Loggers -->
-    <logger name="org.karpukhin.swingmvcdemo">
+    <logger name="org.karpukhin.swingmvcdemo" additivity="false">
         <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>
     </logger>
