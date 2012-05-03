@@ -1,4 +1,4 @@
-package org.karpukhin.swingmvcdemo.ui.user;
+package org.karpukhin.swingmvcdemo.ui.common;
 
 import javax.swing.*;
 import java.util.*;
@@ -59,6 +59,8 @@ public class KeyValueComboBoxModel<K, V>
         if (!elements.isEmpty()) {
             int lastIndex = elements.size() - 1;
             elements.clear();
+            indexKeyMap.clear();
+            keyIndexMap.clear();
             selected = null;
             fireIntervalRemoved(this, 0, lastIndex);
         } else {
@@ -68,7 +70,8 @@ public class KeyValueComboBoxModel<K, V>
 
     public void setSelectedItemWithKey(K key) {
         if (elements.containsKey(key)) {
-            setSelectedItem(new AbstractMap.SimpleEntry<K, V>(key, elements.get(key)));
+            selected = new AbstractMap.SimpleEntry<K, V>(key, elements.get(key));
+            fireContentsChanged(this, -1, -1);
         } else {
             throw new IllegalArgumentException("ComboBoxModel doesn't contain element with key " + key);
         }
