@@ -33,6 +33,9 @@ public class MainView implements MainModelObserver {
     private JSplitPane splitPane = new JSplitPane();
     private JTree tree = new JTree();
     private JTable table = new JTable();
+    private JLabel searchLabel = new JLabel();
+    private JTextField searchField = new JTextField();
+    private JButton searchButton = new JButton();
     private JPopupMenu rootTreePopupMenu;
     private JPopupMenu leafTreePopupMenu;
     private JPopupMenu tablePopupMenu;
@@ -55,6 +58,15 @@ public class MainView implements MainModelObserver {
         frame.setTitle(getMessage("mainView.title"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 450);
+
+        searchLabel.setText(getMessage("label.search"));
+        searchButton.setText(getMessage("label.search"));
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.search(searchField.getText());
+            }
+        });
 
         treeModel = new DefaultTreeModel(new DefaultMutableTreeNode(getMessage("label.groups")));
         tableModel = new UserTableModel(messageSource);
@@ -178,9 +190,22 @@ public class MainView implements MainModelObserver {
         GroupLayout layout = new GroupLayout(panel);
 
         GroupLayout.Group horGroup = layout.createParallelGroup()
-            .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 200, Integer.MAX_VALUE);
+                .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchLabel)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchField, GroupLayout.PREFERRED_SIZE, 100, Integer.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton)
+                )
+                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 200, Integer.MAX_VALUE);
         GroupLayout.Group verGroup = layout.createSequentialGroup()
-            .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 150, Integer.MAX_VALUE);
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(searchLabel)
+                        .addComponent(searchField)
+                        .addComponent(searchButton)
+                )
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 150, Integer.MAX_VALUE);
 
         layout.setHorizontalGroup(
                 layout.createSequentialGroup()

@@ -113,4 +113,9 @@ public class MainControllerImpl implements MainController {
         List<User> users = userService.getUsersByGroup(mainModel.getSelectedGroup());
         mainModel.setUsers(users);
     }
+
+    @Override
+    public void search(String text) {
+
+    }
 }

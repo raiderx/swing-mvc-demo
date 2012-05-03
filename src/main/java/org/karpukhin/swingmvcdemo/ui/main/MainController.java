@@ -20,4 +20,10 @@ public interface MainController {
     void editUser(int userId);
 
     void removeUser(int userId);
+
+    /**
+     * Searches user with given first name or last name
+     * @param text first name or last name
+     */
+    void search(String text);
 }
