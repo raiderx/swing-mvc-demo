@@ -7,3 +7,4 @@ Application features:
 * Context popup menu in tree and table
 * Double click in table opens window for editing selected user
 * English and Russian localized messages
+* Searching users by first name or last name
