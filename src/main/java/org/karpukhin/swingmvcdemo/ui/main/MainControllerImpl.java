@@ -3,6 +3,7 @@ package org.karpukhin.swingmvcdemo.ui.main;
 import org.karpukhin.swingmvcdemo.core.model.Group;
 import org.karpukhin.swingmvcdemo.core.model.User;
 import org.karpukhin.swingmvcdemo.core.service.GroupService;
+import org.karpukhin.swingmvcdemo.core.service.SearchService;
 import org.karpukhin.swingmvcdemo.core.service.UserService;
 import org.karpukhin.swingmvcdemo.ui.group.GroupController;
 import org.karpukhin.swingmvcdemo.ui.user.UserController;
@@ -20,13 +21,15 @@ public class MainControllerImpl implements MainController {
 
     private GroupService groupService;
     private UserService userService;
+    private SearchService searchService;
 
-    public MainControllerImpl(MainModel mainModel, GroupController groupController, UserController userController, GroupService groupService, UserService userService) {
+    public MainControllerImpl(MainModel mainModel, GroupController groupController, UserController userController, GroupService groupService, UserService userService, SearchService searchService) {
         this.mainModel = mainModel;
         this.groupController = groupController;
         this.userController = userController;
         this.groupService = groupService;
         this.userService = userService;
+        this.searchService = searchService;
         createDemoData();
         this.mainModel.setGroups(groupService.getGroups());
     }
@@ -116,6 +119,7 @@ public class MainControllerImpl implements MainController {
 
     @Override
     public void search(String text) {
-
+        List<User> users = searchService.searchUsers(text);
+        mainModel.setUsers(users);
     }
 }

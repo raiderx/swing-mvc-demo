@@ -1,6 +1,7 @@
 package org.karpukhin.swingmvcdemo.ui;
 
 import org.karpukhin.swingmvcdemo.core.service.GroupService;
+import org.karpukhin.swingmvcdemo.core.service.SearchService;
 import org.karpukhin.swingmvcdemo.core.service.UserService;
 import org.karpukhin.swingmvcdemo.ui.group.*;
 import org.karpukhin.swingmvcdemo.ui.main.*;
@@ -26,6 +27,9 @@ public class MvcDemo {
                         "classpath:/org/karpukhin/swingmvcdemo/ui/applicationContext-ui.xml");
                 GroupService groupService = context.getBean(GroupService.class);
                 UserService userService = context.getBean(UserService.class);
+                SearchService searchService = context.getBean(SearchService.class);
+
+                searchService.rebuildIndex();
 
                 MessageSource messageSource = context.getBean(MessageSource.class);
                 
@@ -35,7 +39,7 @@ public class MvcDemo {
                 
                 GroupController groupController = new GroupControllerImpl(groupModel, groupService);
                 UserController userController = new UserControllerImpl(userModel, groupService, userService);
-                MainController mainController = new MainControllerImpl(mainModel, groupController, userController, groupService, userService);
+                MainController mainController = new MainControllerImpl(mainModel, groupController, userController, groupService, userService, searchService);
 
                 MainView mainView = new MainView(mainController, mainModel, messageSource);
                 GroupView groupView = new GroupView(groupController, groupModel, mainView, messageSource);
