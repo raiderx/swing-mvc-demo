@@ -32,5 +32,9 @@
           class="org.karpukhin.swingmvcdemo.core.service.impl.UserServiceImpl">
         <constructor-arg index="0" ref="userDao"/>
     </bean>
+    <bean id="searchService"
+          class="org.karpukhin.swingmvcdemo.core.service.impl.SearchServiceImpl">
+        <constructor-arg index="0" ref="searchDao"/>
+    </bean>
 
 </beans>

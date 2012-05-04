@@ -1,12 +1,17 @@
 package org.karpukhin.swingmvcdemo.core.model;
 
+import org.hibernate.search.annotations.*;
+
 /**
  * The class is used to represent a user
  * @author Pavel Karpukhin
  */
+@Indexed
 public class User extends Entity {
 
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String firstName;
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String lastName;
     private Group group;
 
@@ -74,5 +79,11 @@ public class User extends Entity {
      */
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    @DocumentId
+    @Override
+    public Integer getId() {
+        return super.getId();
     }
 }

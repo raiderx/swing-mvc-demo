@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.karpukhin</groupId>
-    <artifactId>swing-mvc-demo</artifactId>
+    <artifactId>swing-mvc-with-search-demo</artifactId>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
@@ -61,6 +61,11 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.15.0-GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search</artifactId>
+            <version>3.4.2.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

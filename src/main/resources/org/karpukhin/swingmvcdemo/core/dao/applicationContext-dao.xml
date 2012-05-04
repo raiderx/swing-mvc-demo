@@ -17,6 +17,10 @@
           abstract="true">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="searchDao"
+          class="org.karpukhin.swingmvcdemo.core.dao.hibernate.SearchDaoHibernateImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
     <!-- Declaration and setting up dataSource, sessionFactory and
     transactionManager beans -->
@@ -46,6 +50,7 @@
                 <prop key="hibernate.cache.use_query_cache">${hibernate.use_query_cache}</prop>
                 <prop key="hibernate.cache.use_second_level_cache">${hibernate.use_second_level_cache}</prop>
                 <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+                <prop key="hibernate.search.default.directory_provider">ram</prop>
             </props>
         </property>
     </bean>

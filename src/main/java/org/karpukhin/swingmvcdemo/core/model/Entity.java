@@ -5,7 +5,7 @@ package org.karpukhin.swingmvcdemo.core.model;
  * @author Pavel Karpukhin
  */
 public abstract class Entity {
-    
+
     private Integer id;
 
     /**
